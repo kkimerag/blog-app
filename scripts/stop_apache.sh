@@ -19,7 +19,7 @@ if [ ! -e "$virtualHostFile" ]; then
     <VirtualHost *:80>
         ServerAdmin admin@ciruxdigital.com
         ServerName $domain
-        ServerAlias www.$domain
+        ServerAlias $domain
         DocumentRoot $documentRoot
 
         <Directory "$documentRoot">
