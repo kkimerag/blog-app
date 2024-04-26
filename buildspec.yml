@@ -78,6 +78,7 @@ phases:
     commands:
       # - npx tailwindcss -i ./resources/css/input.css -o ./public/build/assets/output.css
       - npm run build
+      - npm run canvas.ui.dev
       - php artisan key:generate
       - php artisan config:cache
       - php artisan optimize
