@@ -23,7 +23,6 @@ if [ ! -e "$virtualHostFile" ]; then
         DocumentRoot $documentRoot
 
         <Directory "$documentRoot">
-            Cache-Control: max-age=31536000
             Options Indexes FollowSymLinks
             AllowOverride All
             Require all granted
