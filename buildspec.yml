@@ -76,7 +76,7 @@ phases:
     # run-as: Linux-user-name
     on-failure: ABORT | CONTINUE
     commands:
-      - npx tailwindcss -i ./resources/css/input.css -o ./public/build/assets/output.css
+      # - npx tailwindcss -i ./resources/css/input.css -o ./public/build/assets/output.css
       - npm run build
       - php artisan key:generate
       - php artisan config:cache
