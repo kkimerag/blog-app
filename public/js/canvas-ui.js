@@ -2832,7 +2832,7 @@ var render = function render() {
         name: "posts"
       }
     }
-  }, [_vm._v("\n                Canvas\n            ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                rv-Tampa's Blog\n            ")]), _vm._v(" "), _c("div", {
     staticClass: "mr-auto border-left pl-1"
   }, [_c("router-link", {
     staticClass: "btn btn-link py-0 text-decoration-none",
@@ -2960,9 +2960,9 @@ var render = function render() {
     staticClass: "col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12 mt-3"
   }, [_c("h1", {
     staticClass: "font-serif"
-  }, [_vm._v("Canvas")]), _vm._v(" "), _c("p", {
+  }, [_vm._v("rv-Tampa's Blog")]), _vm._v(" "), _c("p", {
     staticClass: "lead text-secondary"
-  }, [_vm._v("A Laravel Publishing Platform")]), _vm._v(" "), _c("main", {
+  }, [_vm._v("What you need to know about RV camping in Florida")]), _vm._v(" "), _c("main", {
     staticClass: "mt-5",
     attrs: {
       role: "main"
