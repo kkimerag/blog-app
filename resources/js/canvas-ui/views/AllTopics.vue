@@ -45,7 +45,7 @@
 
 <script>
 import NProgress from 'nprogress';
-import PageHeader from '../components/PageHeaderComponent';
+import PageHeader from '@/canvas-ui/components/PageHeaderComponent.vue';
 
 export default {
     name: 'all-topics',

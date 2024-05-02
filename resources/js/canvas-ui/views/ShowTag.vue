@@ -49,7 +49,7 @@
                             </router-link>
                         </div>
 
-                        <infinite-loading spinner="spiral" @infinite="fetchPosts">
+                        <!-- <infinite-loading spinner="spiral" @infinite="fetchPosts">
                             <span slot="no-more" />
                             <div slot="no-results" class="text-left">
                                 <div class="my-5">
@@ -59,7 +59,7 @@
                                     </p>
                                 </div>
                             </div>
-                        </infinite-loading>
+                        </infinite-loading> -->
                     </div>
                 </main>
             </div>
@@ -68,16 +68,16 @@
 </template>
 
 <script>
-import InfiniteLoading from 'vue-infinite-loading';
+// import InfiniteLoading from 'vue-infinite-loading';
 import NProgress from 'nprogress';
-import PageHeader from '../components/PageHeaderComponent';
+import PageHeader from '@/canvas-ui/components/PageHeaderComponent.vue';
 import isEmpty from 'lodash/isEmpty';
 
 export default {
     name: 'show-tag',
 
     components: {
-        InfiniteLoading,
+        // InfiniteLoading,
         PageHeader,
     },
 

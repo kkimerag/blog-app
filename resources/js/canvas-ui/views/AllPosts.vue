@@ -2,7 +2,7 @@
     <section>
         <page-header />
 
-        <div v-if="isReady" class="mt-5">
+        <div class="mt-5">
             <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12 mt-3">
                 <h1 class="font-serif">rv-Tampa's Blog</h1>
                 <p class="lead text-secondary">What you need to know about RV camping in Florida</p>
@@ -39,7 +39,7 @@
                                                     <span v-if="post.topic.length"> in {{ post.topic[0].name }} </span>
                                                 </p>
                                                 <p class="card-text text-secondary">
-                                                    {{ moment(post.published_at).format('MMM D, Y') }} —
+                                                    {{formatDate(post.published_at)}} —
                                                     {{ post.read_time }}
                                                 </p>
                                             </section>
@@ -49,17 +49,14 @@
                             </router-link>
                         </div>
 
-                        <infinite-loading spinner="spiral" @infinite="fetchPosts">
-                            <span slot="no-more" />
-                            <div slot="no-results" class="text-left">
-                                <div class="my-5">
-                                    <p class="lead text-center text-muted mt-5">You have no published posts</p>
-                                    <p class="lead text-center text-muted mt-1">
-                                        Write on the go with our mobile-ready app!
-                                    </p>
-                                </div>
-                            </div>
-                        </infinite-loading>
+                        <v-row v-if="!isReady" justify='center'>
+                            <v-col cols='auto'>
+                                <v-progress-circular
+                                    color="primary"
+                                    indeterminate
+                                    ></v-progress-circular>
+                            </v-col>
+                        </v-row>
                     </div>
                 </main>
             </div>
@@ -68,16 +65,16 @@
 </template>
 
 <script>
-import InfiniteLoading from 'vue-infinite-loading';
+// import InfiniteLoading from 'vue-infinite-loading';
 import NProgress from 'nprogress';
-import PageHeader from '../components/PageHeaderComponent';
+import PageHeader from '@/canvas-ui/components/PageHeaderComponent.vue';
 import isEmpty from 'lodash/isEmpty';
+import { formatDate } from './../../custom/dateUtils.js';
 
 export default {
     name: 'all-posts',
 
     components: {
-        InfiniteLoading,
         PageHeader,
     },
 
@@ -103,7 +100,8 @@ export default {
 
     methods: {
         fetchPosts($state) {
-            if ($state) {
+            this.isReady = false;
+            // if ($state) {
                 return this.request()
                     .get('/api/posts', {
                         params: {
@@ -114,21 +112,17 @@ export default {
                         if (!isEmpty(data) && !isEmpty(data.data)) {
                             this.page += 1;
                             this.posts.push(...data.data);
-
-                            $state.loaded();
-                        } else {
-                            $state.complete();
                         }
-
-                        if (isEmpty($state)) {
-                            NProgress.inc();
-                        }
+                        this.isReady = true;
                     })
                     .catch(() => {
-                        NProgress.done();
+                        this.isReady = true;
                     });
-            }
+            // }
         },
+        formatDate(dateString) {
+          return formatDate(dateString);
+        }
     },
 };
 </script>
