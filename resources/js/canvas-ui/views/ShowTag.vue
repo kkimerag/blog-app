@@ -5,7 +5,7 @@
         <div v-if="isReady" class="mt-5">
             <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12 mt-3">
                 <h3 class="my-0">Tag: {{ tag.name }}</h3>
-                <p class="text-secondary">Created {{ moment(tag.created_at).fromNow() }}</p>
+                <p class="text-secondary">Created {{ fromNow(tag.created_at) }}</p>
 
                 <main role="main" class="mt-5">
                     <div>
@@ -39,7 +39,7 @@
                                                     <span v-if="post.topic.length"> in {{ post.topic[0].name }} </span>
                                                 </p>
                                                 <p class="card-text text-secondary">
-                                                    {{ moment(post.published_at).format('MMM D, Y') }} —
+                                                    {{formatDate(post.published_at)}} —
                                                     {{ post.read_time }}
                                                 </p>
                                             </section>
@@ -49,17 +49,14 @@
                             </router-link>
                         </div>
 
-                        <!-- <infinite-loading spinner="spiral" @infinite="fetchPosts">
-                            <span slot="no-more" />
-                            <div slot="no-results" class="text-left">
-                                <div class="my-5">
-                                    <p class="lead text-center text-muted mt-5">You have no published posts</p>
-                                    <p class="lead text-center text-muted mt-1">
-                                        Write on the go with our mobile-ready app!
-                                    </p>
-                                </div>
-                            </div>
-                        </infinite-loading> -->
+                        <v-row v-if="!isReady" justify='center'>
+                            <v-col cols='auto'>
+                                <v-progress-circular
+                                    color="primary"
+                                    indeterminate
+                                    ></v-progress-circular>
+                            </v-col>
+                        </v-row>
                     </div>
                 </main>
             </div>
@@ -72,6 +69,7 @@
 import NProgress from 'nprogress';
 import PageHeader from '@/canvas-ui/components/PageHeaderComponent.vue';
 import isEmpty from 'lodash/isEmpty';
+import { formatDate , fromNow } from './../../custom/dateUtils.js';
 
 export default {
     name: 'show-tag',
@@ -117,7 +115,8 @@ export default {
         },
 
         fetchPosts($state) {
-            if ($state) {
+            this.isReady = false;
+            // if ($state) {
                 return this.request()
                     .get(`/api/tags/${this.uri}/posts`, {
                         params: {
@@ -128,21 +127,23 @@ export default {
                         if (!isEmpty(data) && !isEmpty(data.data)) {
                             this.page += 1;
                             this.posts.push(...data.data);
-
-                            $state.loaded();
-                        } else {
-                            $state.complete();
                         }
-
-                        if (isEmpty($state)) {
-                            NProgress.inc();
-                        }
+                        this.isReady = true;
                     })
                     .catch(() => {
+                        this.isReady = true;
                         NProgress.done();
                     });
-            }
+            // }
         },
+
+        formatDate(dateString) {
+          return formatDate(dateString);
+        },
+
+        fromNow(dateString){
+            return fromNow(dateString);
+        }
     },
 };
 </script>

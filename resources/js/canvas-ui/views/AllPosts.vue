@@ -117,6 +117,7 @@ export default {
                     })
                     .catch(() => {
                         this.isReady = true;
+                         NProgress.done();
                     });
             // }
         },

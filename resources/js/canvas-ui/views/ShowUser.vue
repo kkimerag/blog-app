@@ -58,7 +58,7 @@
                                                     <span v-if="post.topic.length"> in {{ post.topic[0].name }} </span>
                                                 </p>
                                                 <p class="card-text text-secondary">
-                                                    {{ moment(post.published_at).format('MMM D, Y') }} —
+                                                    {{formatDate(post.published_at)}} —
                                                     {{ post.read_time }}
                                                 </p>
                                             </section>
@@ -91,6 +91,7 @@
 import NProgress from 'nprogress';
 import PageHeader from '@/canvas-ui/components/PageHeaderComponent.vue';
 import isEmpty from 'lodash/isEmpty';
+import { formatDate } from './../../custom/dateUtils.js';
 
 export default {
     name: 'show-user',

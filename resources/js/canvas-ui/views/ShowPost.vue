@@ -73,7 +73,7 @@
                             </span>
                         </p>
                         <span class="text-secondary"
-                            >{{ moment(post.published_at).format('MMM D, Y') }} — {{ post.read_time }}</span
+                            >{{formatDate(post.published_at)}} — {{ post.read_time }}</span
                         >
                     </div>
                 </div>
@@ -129,6 +129,7 @@ import NProgress from 'nprogress';
 import PageHeader from '@/canvas-ui/components/PageHeaderComponent.vue';
 import hljs from 'highlight.js';
 import mediumZoom from 'medium-zoom';
+import { formatDate } from './../../custom/dateUtils.js';
 
 export default {
     name: 'show-post',
@@ -193,7 +194,7 @@ export default {
         });
 
         document.querySelectorAll('pre').forEach((block) => {
-            hljs.highlightBlock(block);
+            hljs.highlightElement(block);
         });
     },
 
@@ -215,6 +216,9 @@ export default {
                     this.$router.push({ name: 'posts' });
                 });
         },
+        formatDate(dateString) {
+          return formatDate(dateString);
+        }
     },
 };
 </script>
