@@ -72,7 +72,7 @@
                                 </router-link>
                             </span>
                         </p>
-                        <span class="text-secondary"
+                        <span class="text-grey"
                             >{{formatDate(post.published_at)}} — {{ post.read_time }}</span
                         >
                     </div>

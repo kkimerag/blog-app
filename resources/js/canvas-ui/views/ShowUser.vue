@@ -17,10 +17,10 @@
                         <h3 class="my-0">
                             {{ user.name }}
                         </h3>
-                        <p v-if="user.summary" class="text-secondary my-1">
+                        <p v-if="user.summary" class="text-grey my-1">
                             {{ user.summary }}
                         </p>
-                        <p class="text-secondary mt-1 mb-0">
+                        <p class="text-grey mt-1 mb-0">
                             <a :href="`mailto:${user.email}`">{{ user.email }}</a>
                         </p>
                     </section>
@@ -53,11 +53,11 @@
                                             >
                                                 <h5 class="card-title text-truncate mb-0">{{ post.title }}</h5>
                                                 <p class="card-text text-truncate">{{ post.summary }}</p>
-                                                <p class="card-text mb-0 text-secondary">
+                                                <p class="card-text mb-0 text-grey">
                                                     {{ post.user.name }}
                                                     <span v-if="post.topic.length"> in {{ post.topic[0].name }} </span>
                                                 </p>
-                                                <p class="card-text text-secondary">
+                                                <p class="card-text text-grey">
                                                     {{formatDate(post.published_at)}} —
                                                     {{ post.read_time }}
                                                 </p>

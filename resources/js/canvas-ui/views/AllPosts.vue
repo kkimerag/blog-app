@@ -5,7 +5,7 @@
         <div class="mt-5">
             <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12 mt-3">
                 <h1 class="font-serif">rv-Tampa's Blog</h1>
-                <p class="lead text-secondary">What you need to know about RV camping in Florida</p>
+                <p class="lead text-grey">What you need to know about RV camping in Florida</p>
 
                 <main role="main" class="mt-5">
                     <div>
@@ -34,11 +34,11 @@
                                             >
                                                 <h5 class="card-title text-truncate mb-0">{{ post.title }}</h5>
                                                 <p class="card-text text-truncate">{{ post.summary }}</p>
-                                                <p class="card-text mb-0 text-secondary">
+                                                <p class="card-text mb-0 text-grey">
                                                     {{ post.user.name }}
                                                     <span v-if="post.topic.length"> in {{ post.topic[0].name }} </span>
                                                 </p>
-                                                <p class="card-text text-secondary">
+                                                <p class="card-text text-grey">
                                                     {{formatDate(post.published_at)}} —
                                                     {{ post.read_time }}
                                                 </p>

@@ -5,7 +5,7 @@
         <div v-if="isReady" class="mt-5">
             <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12 mt-3">
                 <h3 class="my-0">Tag: {{ tag.name }}</h3>
-                <p class="text-secondary">Created {{ fromNow(tag.created_at) }}</p>
+                <p class="text-grey">Created {{ fromNow(tag.created_at) }}</p>
 
                 <main role="main" class="mt-5">
                     <div>
@@ -34,11 +34,11 @@
                                             >
                                                 <h5 class="card-title text-truncate mb-0">{{ post.title }}</h5>
                                                 <p class="card-text text-truncate">{{ post.summary }}</p>
-                                                <p class="card-text mb-0 text-secondary">
+                                                <p class="card-text mb-0 text-grey">
                                                     {{ post.user.name }}
                                                     <span v-if="post.topic.length"> in {{ post.topic[0].name }} </span>
                                                 </p>
-                                                <p class="card-text text-secondary">
+                                                <p class="card-text text-grey">
                                                     {{formatDate(post.published_at)}} —
                                                     {{ post.read_time }}
                                                 </p>

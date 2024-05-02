@@ -21,23 +21,23 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
 
-const myCustomLightTheme = {
-  dark: false,
-  colors: {
-    background: '#040e15',
-    surface: '#4f4f51',
-    cover: '#d6d6d6',
-    primary: '#f56677',
-    'primary-darken-1': '#3700B3',
-    secondary: '#f2c4ce',
-    'secondary-darken-1': '#018786',
-    error: '#7d1528',
-    info: '#0caaed',
-    success: '#067d51',
-    warning: '#d4aa02',
-    golden: '#ad974f',
-  },
-}
+// const myCustomLightTheme = {
+//   dark: false,
+//   colors: {
+//     background: '#040e15',
+//     surface: '#4f4f51',
+//     cover: '#d6d6d6',
+//     primary: '#9FA8DA',
+//     'primary-darken-1': '#3700B3',
+//     secondary: '#f2c4ce',
+//     'secondary-darken-1': '#018786',
+//     error: '#7d1528',
+//     info: '#0caaed',
+//     success: '#067d51',
+//     warning: '#d4aa02',
+//     golden: '#ad974f',
+//   },
+// }
 
 const vuetify = createVuetify({
     /*icons: {
@@ -49,12 +49,12 @@ const vuetify = createVuetify({
       },*/
     components,
     directives,
-    theme: {
-        defaultTheme: 'myCustomLightTheme',
-        themes: {
-          myCustomLightTheme,
-        },
-      },
+    // theme: {
+    //     defaultTheme: 'myCustomLightTheme',
+    //     themes: {
+    //       myCustomLightTheme,
+    //     },
+    //   },
 })
 //-----------Vuetify
 
