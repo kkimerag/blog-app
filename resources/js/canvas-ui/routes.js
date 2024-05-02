@@ -45,6 +45,6 @@ export default [
     {
         path: '/:pathMatch(.*)*',
         name: 'catch-all',
-        redirect: '/canvas-ui',
+        redirect: '/',
     },
 ];

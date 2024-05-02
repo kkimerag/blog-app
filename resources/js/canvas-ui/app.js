@@ -66,7 +66,7 @@ NProgress.configure({
 
 
 const router = createRouter({
-  history: createWebHistory('canvas-ui'),
+  history: createWebHistory('/'),
   routes: routes // Using the imported routes array
 });
 
