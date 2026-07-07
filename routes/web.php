@@ -1,12 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\ResolveBlogSite;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
-Route::prefix('/')->group(function () {
+Route::middleware(ResolveBlogSite::class)->prefix('/')->group(function () {
+    Route::get('sitemap.xml', [\App\Http\Controllers\CanvasUiController::class, 'sitemap'])
+         ->name('sitemap');
+
     Route::prefix('api')->group(function () {
         Route::get('posts', [\App\Http\Controllers\CanvasUiController::class, 'getPosts']);
         Route::get('posts/{slug}', [\App\Http\Controllers\CanvasUiController::class, 'showPost'])

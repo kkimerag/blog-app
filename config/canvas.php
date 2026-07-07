@@ -41,6 +41,7 @@ return [
 
     'middleware' => [
         'web',
+        \App\Http\Middleware\ResolveBlogSite::class,
     ],
 
     /*
