@@ -83,6 +83,12 @@ class BlogSiteTenantTest extends TestCase
     public function test_blog_site_create_command_rejects_email_used_by_another_site(): void
     {
         [$site] = $this->createSiteWithUser('Business A', 'business-a.test');
+        $defaultSite = BlogSite::query()->create([
+            'name' => 'Default Site',
+            'domain' => 'default.test',
+            'settings' => [],
+            'is_default' => true,
+        ]);
 
         CanvasUser::query()->create([
             'id' => (string) Str::uuid(),
@@ -99,7 +105,42 @@ class BlogSiteTenantTest extends TestCase
             'name' => 'Business B',
             'email' => 'admin@example.com',
             '--password' => 'secret-password',
+            '--default' => true,
         ])->assertExitCode(1);
+
+        $this->assertDatabaseMissing('blog_sites', [
+            'domain' => 'business-b.test',
+        ]);
+
+        $this->assertTrue($defaultSite->fresh()->is_default);
+    }
+
+    public function test_post_response_separates_seo_canonical_from_republish_canonical(): void
+    {
+        [$site, $user] = $this->createSiteWithUser('Business A', 'business-a.test');
+
+        $this->createPost($site, $user, 'first-party-post', 'First Party Post');
+
+        $response = $this->getJson('http://business-a.test/api/posts/first-party-post');
+
+        $response->assertOk()
+            ->assertJsonMissingPath('meta.canonical_link')
+            ->assertJsonPath('meta.seo_canonical_link', 'http://business-a.test/posts/first-party-post');
+    }
+
+    public function test_post_response_preserves_explicit_republish_canonical(): void
+    {
+        [$site, $user] = $this->createSiteWithUser('Business A', 'business-a.test');
+
+        $this->createPost($site, $user, 'republished-post', 'Republished Post', [
+            'canonical_link' => 'https://source.example/post',
+        ]);
+
+        $response = $this->getJson('http://business-a.test/api/posts/republished-post');
+
+        $response->assertOk()
+            ->assertJsonPath('meta.canonical_link', 'https://source.example/post')
+            ->assertJsonPath('meta.seo_canonical_link', 'https://source.example/post');
     }
 
     private function createSiteWithUser(string $name, string $domain): array
@@ -123,7 +164,7 @@ class BlogSiteTenantTest extends TestCase
         return [$site, $user];
     }
 
-    private function createPost(BlogSite $site, CanvasUser $user, string $slug, string $title): Post
+    private function createPost(BlogSite $site, CanvasUser $user, string $slug, string $title, array $meta = []): Post
     {
         return Post::query()->create([
             'id' => (string) Str::uuid(),
@@ -134,10 +175,10 @@ class BlogSiteTenantTest extends TestCase
             'body' => "{$title} body",
             'published_at' => now()->subDay(),
             'user_id' => $user->id,
-            'meta' => [
+            'meta' => array_merge([
                 'title' => $title,
                 'description' => "{$title} description",
-            ],
+            ], $meta),
         ]);
     }
 }

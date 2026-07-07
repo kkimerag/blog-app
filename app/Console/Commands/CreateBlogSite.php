@@ -43,33 +43,32 @@ class CreateBlogSite extends Command
             return self::FAILURE;
         }
 
-        return DB::transaction(function () use ($domain, $name, $email, $adminName, $username, $password) {
+        $existingSite = BlogSite::query()->firstWhere('domain', $domain);
+        $existingUser = CanvasUser::query()->where('email', $email)->first();
+
+        if ($existingUser && (! $existingSite || $existingUser->site_id !== $existingSite->id)) {
+            $this->error("A Canvas user with {$email} already exists on a different site.");
+
+            return self::FAILURE;
+        }
+
+        return DB::transaction(function () use ($domain, $name, $email, $adminName, $username, $password, $existingSite, $existingUser) {
             if ($this->option('default')) {
                 BlogSite::query()->update(['is_default' => false]);
             }
 
-            $site = BlogSite::query()->firstOrCreate(
-                ['domain' => $domain],
-                [
-                    'name' => $name,
-                    'settings' => [],
-                    'is_default' => (bool) $this->option('default'),
-                ],
-            );
+            $site = $existingSite ?: BlogSite::query()->create([
+                'domain' => $domain,
+                'name' => $name,
+                'settings' => [],
+                'is_default' => (bool) $this->option('default'),
+            ]);
 
-            if (! $site->wasRecentlyCreated) {
+            if ($existingSite) {
                 $site->fill([
                     'name' => $name,
                     'is_default' => $this->option('default') ? true : $site->is_default,
                 ])->save();
-            }
-
-            $existingUser = CanvasUser::query()->where('email', $email)->first();
-
-            if ($existingUser && $existingUser->site_id !== $site->id) {
-                $this->error("A Canvas user with {$email} already exists on a different site.");
-
-                return self::FAILURE;
             }
 
             $user = $existingUser ?: CanvasUser::query()->create([
@@ -82,7 +81,7 @@ class CreateBlogSite extends Command
                 'role' => CanvasUser::ADMIN,
             ]);
 
-            $this->info($site->wasRecentlyCreated ? 'Blog site created.' : 'Blog site updated.');
+            $this->info($existingSite ? 'Blog site updated.' : 'Blog site created.');
             $this->line("Site: {$site->name}");
             $this->line("Domain: {$site->domain}");
             $this->line("Site ID: {$site->id}");

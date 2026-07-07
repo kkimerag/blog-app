@@ -171,16 +171,19 @@ export default {
                 return false;
             }
         },
+        canonicalLink() {
+            return this.post?.meta?.seo_canonical_link || this.post?.meta?.canonical_link || null;
+        },
     },
 
     async created() {
         await Promise.all([this.fetchPost()]);
 
         // Hack since vue-meta doesn't seem to like canonical tags
-        if (this.post?.meta?.canonical_link != null) {
+        if (this.canonicalLink != null) {
             let link = document.createElement('link');
             link.rel = 'canonical';
-            link.href = this.post.meta.canonical_link;
+            link.href = this.canonicalLink;
             document.head.appendChild(link);
         }
 

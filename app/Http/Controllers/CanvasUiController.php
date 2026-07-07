@@ -103,7 +103,7 @@ class CanvasUiController extends Controller
 
         if ($post) {
             $meta = $post->meta ?? [];
-            $meta['canonical_link'] ??= url("/posts/{$post->slug}");
+            $meta['seo_canonical_link'] = $meta['canonical_link'] ?? url("/posts/{$post->slug}");
             $post->meta = $meta;
 
             event(new PostViewed($post));
