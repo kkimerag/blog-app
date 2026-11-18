@@ -1,11 +1,19 @@
 #!/bin/bash
+set -euo pipefail
 
-# Stop Apache
-sudo systemctl start httpd
+app_dir=/var/www/html/blog.rv-tampa.com
+env_file=/etc/blog-app/production.env
 
-# Optimization
-sudo php /var/www/html/blog.rv-tampa.com/artisan optimize
+"$app_dir/scripts/check_production_env.sh"
+mkdir -p "$app_dir/bootstrap/cache" "$app_dir/storage/app/public" \
+    "$app_dir/storage/framework/cache/data" "$app_dir/storage/framework/sessions" \
+    "$app_dir/storage/framework/views" "$app_dir/storage/logs"
+chown -R apache:apache "$app_dir"
+chmod -R 755 "$app_dir/storage"
 
-# Set Laravel Permissions
-sudo chown -R apache:apache /var/www/html/blog.rv-tampa.com
-sudo chmod -R 755 /var/www/html/blog.rv-tampa.com/storage
+# Install only on the application host; the source remains outside the release.
+install -o root -g apache -m 0640 "$env_file" "$app_dir/.env"
+cd "$app_dir"
+sudo -u apache php artisan config:clear
+sudo -u apache php artisan optimize
+systemctl start httpd
