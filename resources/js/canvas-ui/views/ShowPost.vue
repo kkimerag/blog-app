@@ -93,6 +93,7 @@
                 />
 
                 <div class="post-content position-relative align-items-center overflow-y-visible font-serif mt-4">
+                <div class="post-content position-relative align-items-center overflow-y-visible font-serif mt-4 p-2">
                     <div v-html="post.body" />
                 </div>
 
@@ -119,6 +120,13 @@
                         }}</a>
                     </p>
                 </div>
+                
+                <!-- Comment Section Component -->
+                <comments-component 
+                  v-if="post.id" 
+                  :post-id="post.id.toString()"
+                  @error="handleCommentError" 
+                />
             </div>
         </div>
     </section>
@@ -127,6 +135,7 @@
 <script>
 import NProgress from 'nprogress';
 import PageHeader from '@/canvas-ui/components/PageHeaderComponent.vue';
+import CommentsComponent from '@/custom/CommentSection.vue';
 import hljs from 'highlight.js';
 import mediumZoom from 'medium-zoom';
 import { formatDate } from './../../custom/dateUtils.js';
@@ -136,6 +145,7 @@ export default {
 
     components: {
         PageHeader,
+        CommentsComponent,
     },
 
     metaInfo() {
@@ -160,6 +170,7 @@ export default {
             page: 1,
             post: null,
             isReady: false,
+            commentError: false,
         };
     },
 
@@ -221,6 +232,17 @@ export default {
         },
         formatDate(dateString) {
           return formatDate(dateString);
+        },
+        parseURL(url) {
+            try {
+                return new URL(url);
+            } catch (e) {
+                return { host: url };
+            }
+        },
+        handleCommentError(error) {
+            console.warn('Comment section error:', error);
+            this.commentError = true;
         }
     },
 };

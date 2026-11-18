@@ -4,8 +4,8 @@
 
         <div v-if="isReady" class="mt-5">
             <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-md-12 mt-3">
-                <h1 class="font-serif">rv-Tampa's Blog</h1>
-                <p class="lead text-grey">What you need to know about RV camping in Florida</p>
+                <h1 class="font-serif">IEVA Insights</h1>
+                <p class="lead text-grey">Let AI Run Your Socials, You Run Your Life</p>
 
                 <main role="main" class="mt-5">
                     <div>
